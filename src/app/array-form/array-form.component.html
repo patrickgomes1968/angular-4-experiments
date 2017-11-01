@@ -1,0 +1,37 @@
+<form [formGroup]="form">
+    <div class="form-group">
+        <label for="topic">Topic</label>
+        <input #topic
+            id="topic" type="text" class="form-control"
+            (keyup.enter) = "addTopic(topic)"
+            >
+    </div>
+    <ul class="list-group">
+    <li *ngFor="let topic of topics.controls"
+        class="list-group-item" (click) = "removeTopic(topic)">
+        {{topic.value}}
+    </li>
+    </ul>
+  
+  <div class="form-group" formGroupName = "account">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input 
+                (keyup) = "keyPressed()" (blur) = "keyPressed()"
+                formControlName="username"
+                id="username" 
+                type="text" 
+                class="form-control">
+            <div *ngIf="username.pending" class="loader"></div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+                forControlName="password"
+                id="password" 
+                type="text" 
+                class="form-control">
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Sign Up</button>
+</form>

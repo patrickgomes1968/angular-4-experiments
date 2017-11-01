@@ -1,0 +1,24 @@
+
+<!-- <div (click) = "onDivClicked()">
+    <button (click) = "onSave($event)" [style.backgroundColor]="isActive ? 'blue' : 'red'" class="btn btn-primary" >Save</button>
+</div> -->
+<div *ngIf="courses.length > 0; then Courses else noCourses"></div>
+<ng-template #Courses>
+    <h2>{{title}} </h2>
+    <div class="container">
+        <div class="row" *ngFor="let c of courses; odd as isOdd index as i" >
+            <div class="col-md-3" [class.odd-class]="isOdd"><course [course-title]="c.courseName"></course></div>
+            <div class="col-md-1">
+                <favorite (change)="onFavClicked($event)">
+                    <div class="counts">This is a counter</div>
+                </favorite>
+            </div>
+            <div class="col-md-1">
+                <button (click)="courses.splice(i,1)">Remove</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #noCourses>
+    <h2>No courses found</h2>
+</ng-template>

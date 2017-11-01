@@ -1,0 +1,11 @@
+<input #post type="text" class="form-control"
+  (keyup.enter)="addPost(post)">
+
+<dl  class="list-group-item"
+*ngFor ="let post of posts">
+  <dt>{{post.userId}} : {{post.title}}</dt> 
+  <dd>{{post.body}} 
+    <button (click)="updatePost(post)" class="btn btn-default btn-sm">Update</button>
+    <button (click)="deletePost(post)" class="btn btn-default btn-sm">Delete</button>
+  </dd> 
+</dl>
