@@ -1,3 +1,4 @@
+import { PostsService } from './services/posts.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -31,6 +32,7 @@ import { PostsComponent } from './posts/posts.component';
     HttpModule
   ],
   providers: [
+    PostsService,
     CoursesService
   ],
   bootstrap: [AppComponent]

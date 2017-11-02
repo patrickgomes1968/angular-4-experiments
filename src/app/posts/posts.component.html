@@ -3,8 +3,8 @@
 
 <dl  class="list-group-item"
 *ngFor ="let post of posts">
-  <dt>{{post.userId}} : {{post.title}}</dt> 
-  <dd>{{post.body}} 
+  <dt class="dl-horizontal">{{post.userId}} : {{post.title}}</dt> 
+  <dd class="dl-horizontal">{{post.body}} 
     <button (click)="updatePost(post)" class="btn btn-default btn-sm">Update</button>
     <button (click)="deletePost(post)" class="btn btn-default btn-sm">Delete</button>
   </dd> 
