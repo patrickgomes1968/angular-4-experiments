@@ -4,95 +4,78 @@ import { AppError } from './../common/app-error';
 import { PostsService } from './../services/posts.service';
 import { Component, OnInit } from '@angular/core';
 
-
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
-export class PostsComponent implements OnInit{
-  posts: any[];
-  private url ='https://jsonplaceholder.typicode.com/posts';
-  
-  constructor(private postsService: PostsService) {
-    
-  }
+export class PostsComponent implements OnInit {
+  posts: any[]; 
+  sentFrom: string; 
 
+  constructor(private postsService: PostsService) { }
   ngOnInit() {
-    this.postsService.getPosts()
-    .subscribe(
-      response => {
-        console.log(response.json())
-        this.posts = response.json();
-      });
+    this.postsService.getAll()
+    .subscribe(posts => this.posts = posts);
       //No error handling here because we allow the error to propagate to the global scope
-      //where it will be handled by our custome handler. See providers in app.Module
+      //where it will be handled by our custom handler. See providers in app.Module
+      //but in the other methods, we tackle handling of the Expected Errors 
+      //before throwing the error (and let it propagate to the global scope)
     }
   
-
   addPost(inp: HTMLInputElement) {
     let post = {title: inp.value};
-    inp.value='';
-    this.postsService.createPost(post)
+    this.posts.splice(0,0,post); //Optimistically adding
+    inp.value=''; this.sentFrom = "addPost";
+    this.postsService.create(post)
       .subscribe(
-        response => {
-          post['id'] = response.json().id; 
-          this.posts.splice(0,0,post);
-          console.log(response.json())
+        newPost => {
+          // post['id'] = newPost.id; 
+          // this.posts.splice(0,0,post);
+          console.log(newPost)
         },
-        (error: AppError) => {
-          if (error instanceof BadInputError) {
-            alert('Input was not valid');
-            console.log(error)
-          } else if  (error instanceof AppError) {
-              alert('That post does not exist');
-              console.log(error)
-          } else 
-              throw error;
-        });
+        this.errorHandler
+      );
   }
 
   updatePost(post) {
-    this.postsService.updatePost(post.id,
+    this.postsService.update(post.id,
       JSON.stringify({title: "Changed Post"})  // send only changes as object
     )
       .subscribe(
-        response => {
-          post['id'] = response.json().id;
-          console.log(response.json());
+        postResp => {
+          post['id'] = postResp.id;
+          console.log(postResp);
         },
-        (error: AppError) => {
-          if (error instanceof BadInputError) {
-            alert('Input was not valid');
-            console.log(error)
-          } else if  (error instanceof AppError) {
-              alert('That post does not exist');
-              console.log(error)
-          } else 
-              throw error;
-        });
+        this.errorHandler
+      );
   }
 
   deletePost(post) {
-    this.postsService.deletePost(post.id)
+    this.posts.splice(this.posts.indexOf(post),1) // Optimisitic
+    this.postsService.delete(post.id)
       .subscribe(
-        (response) => {
-          this.posts.splice(this.posts.indexOf(post),1);
+        () => {
+          //this.posts.splice(this.posts.indexOf(post),1);
         },
-        (error: AppError) => {
-          if (error instanceof BadInputError) {
-            alert('That data sent is not in the right format');
-            console.log(error)
-          } else if (error instanceof NotFoundError) {
-              alert('That post does not exist');
-              console.log(error)
-          } else 
-              throw error;
-        });
+        this.errorHandler
+      )
   }
 
-  private errorHandler() {
-    
+  errorHandler(error: AppError) {
+    //Rollback optimistic adding
+    console.log(this.posts);
+    if (this.sentFrom="addPost") {
+      this.posts.splice(0,1); 
+      this.sentFrom='';
+    }
+    if (error instanceof BadInputError) {
+      alert('That data sent is not in the right format');
+      console.log(error)
+    } else if (error instanceof NotFoundError) {
+        alert('That post does not exist');
+        console.log(error)
+    } else throw error;
   }
 
 }
