@@ -63,8 +63,8 @@ import { GithubFollowersService } from './services/github-followers.service';
       { path: 'followers/:id', component: GithubProfileComponent },
       { path: 'followers', component: GithubFollowersComponent, canActivate: [AuthGuard] },
       { path: 'posts', component: PostsComponent },
-      { path: 'admin', 
-        component: AdminComponent, 
+      { path: 'admin',
+        component: AdminComponent,
         canActivate: [AuthGuard, AdminAuthGuard]  },
       { path: 'login', component: LoginComponent },
       { path: 'no-access', component: NoAccessComponent },
@@ -81,7 +81,7 @@ import { GithubFollowersService } from './services/github-followers.service';
     AuthGuard,
     AdminAuthGuard,
     // { provide: ErrorHandler, useClass: AppErrorhandler },
-    //For mock back-end.
+    // For mock back-end.
     fakeBackendProvider,
     MockBackend,
     BaseRequestOptions
