@@ -1,0 +1,18 @@
+<div class="media-left">
+    <img class="avatar media-object" src="{{ follower.avatar_url }}" alt="...">
+    <a target="_blank" href="follower.html_url">{{ follower.html_url }}</a>
+</div>
+<dl>
+  <dt>Login:</dt>
+  <dd>{{follower.login}}</dd>
+  <dt>Type:</dt>
+  <dd>{{follower.type}}</dd>
+  <dt>Repos:</dt>
+  <dd> <a target="_blank" href="follower.type">{{follower.type}}</a> </dd>
+</dl>
+
+<a [routerLink] = "['/followers', Next()]"> 
+  {{Next()}}
+  <span class="glyphicon glyphicon-menu-right" >
+  </span>
+</a>
