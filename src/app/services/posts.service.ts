@@ -6,6 +6,7 @@ import { Http } from '@angular/http';
 @Injectable()
 export class PostsService extends DataService {
   constructor(http: Http) {
-    super('http://jsonplaceholder.typicode.com/posts', http)
+    super(http);
+    this.url = 'http://jsonplaceholder.typicode.com/posts';
   }
 }

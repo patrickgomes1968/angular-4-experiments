@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'array-form',
   templateUrl: './array-form.component.html',
   styleUrls: ['./array-form.component.css']
@@ -14,7 +15,7 @@ export class ArrayFormComponent {
       username: new FormControl(''),
       password: new FormControl('')
     })
-  })
+  });
 
   get topics() {
     return this.form.get('topics') as FormArray;
@@ -32,5 +33,7 @@ export class ArrayFormComponent {
   removeTopic(topic: FormControl) {
     this.topics.removeAt(this.topics.controls.indexOf(topic))
   }
+
+  keyPressed() {}
 
 }

@@ -1,3 +1,5 @@
+import { PanelComponent } from './panel/panel.component';
+import { UrlService } from './services/url.service';
 import { AdminAuthGuard } from './services/admin-auth-guard.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { MockBackend } from '@angular/http/testing';
@@ -51,7 +53,8 @@ import { GithubFollowersService } from './services/github-followers.service';
     NotFoundComponent,
     AdminComponent,
     LoginComponent,
-    NoAccessComponent
+    NoAccessComponent,
+    PanelComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +75,7 @@ import { GithubFollowersService } from './services/github-followers.service';
     ])
   ],
   providers: [
+    UrlService,
     PostsService,
     DataService,
     CoursesService,
@@ -80,7 +84,7 @@ import { GithubFollowersService } from './services/github-followers.service';
     AuthService,
     AuthGuard,
     AdminAuthGuard,
-    // { provide: ErrorHandler, useClass: AppErrorhandler },
+    { provide: ErrorHandler, useClass: AppErrorhandler },
     // For mock back-end.
     fakeBackendProvider,
     MockBackend,
